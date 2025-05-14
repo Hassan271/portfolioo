@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+    <script>
+        let names = [];
+        let todoListHTML = ''
+
+function handleAddTodo(){
+  const todo_input = document.querySelector('.js-input-todo').value;
+  const todoValue = todo_input.value
+  const result = document.querySelector('.todo-list');
+ 
+  names.push(todoValue); 
+   const html = `<p>${todo_input} </p>`
+   todoListHTML = html;
+  result.innerHTML +=todoListHTML;
+  todo_input.value = '';
+}
+</script>
+
+<body>
+    <p class="title"> Todo List </p>
+    <input type="text" class="js-input-todo" placeholder="Todo name">
+    <button type="submit" class="js-btn-todo" onclick="handleAddTodo()">Add</button>
+
+    <div class="todo-list"></div>
+
+ </body>
+</html>

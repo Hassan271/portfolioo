@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+class Program
+{
+    static string filePath = "todo.txt";
+
+    static void Main()
+    {
+        Console.WriteLine("Simple To-Do List App");
+        Console.WriteLine("---------------------");
+
+        while (true)
+        {
+            Console.WriteLine("1. View tasks");
+            Console.WriteLine("2. Add task");
+            Console.WriteLine("3. Remove task");
+            Console.WriteLine("4. Exit");
+
+            Console.Write("Enter your choice (1-4): ");
+            string choice = Console.ReadLine();
+switch (choice)
+            {
+                case "1":
+                    ViewTasks();
+                    break;
+
+                case "2":
+                    AddTask();
+                    break;
+
+                case "3":
+                    RemoveTask();
+                    break;
+
+                case "4":
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 4.");
+                    break;
+            }
+        }
+    }
+static void ViewTasks()
+    {
+        Console.WriteLine("\nTasks:");
+
+        if (File.Exists(filePath))
+        {
+            string[] tasks = File.ReadAllLines(filePath);
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {tasks[i]}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No tasks available.");
+        }
+
+        Console.WriteLine();
+    }
+
+    static void AddTask()
+{
+        Console.Write("\nEnter the task: ");
+        string task = Console.ReadLine();
+
+        using (StreamWriter writer = File.AppendText(filePath))
+        {
+            writer.WriteLine(task);
+        }
+
+        Console.WriteLine("Task added successfully.\n");
+    }
+
+    static void RemoveTask()
+    {
+        ViewTasks();
+
+        Console.Write("Enter the task number to remove: ");
+        if (int.TryParse(Console.ReadLine(), out int taskNumber))
+        {
+            List<string> tasks = new List<string>(File.ReadAllLines(filePath));
+
+            if (taskNumber > 0 && taskNumber <= tasks.Count)
+            {
+                string removedTask = tasks[taskNumber - 1];
+ tasks.RemoveAt(taskNumber - 1);
+
+                File.WriteAllLines(filePath, tasks.ToArray());
+
+                Console.WriteLine($"Task '{removedTask}' removed successfully.\n");
+            }
+            else
+            {
+                Console.WriteLine("Invalid task number.\n");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid number.\n");
+        }
+    }
+}         
